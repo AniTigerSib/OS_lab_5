@@ -1,36 +1,39 @@
 #include "buffer.h"
 
 #include <unistd.h>
- 
+
 Buffer *Buffer::s_pBuf = 0;
- 
-class _Buffer: public Buffer {
-private:
+
+class _Buffer : public Buffer {
+   private:
     int _Capacity;
     int _Count;
     int _Anybody;
     int *_b;
     int _GetItem(void);
     void _PutItem(int V);
-public:
+
+   public:
     virtual int GetItem(void);
     virtual void PutItem(int V);
     _Buffer(int _Cap) : _Capacity(_Cap), _Count(0), _Anybody(0) {
         if (_Cap > 0) {
             _b = new int[_Cap];
-        } else throw "Capacity must be greater then zero!";
+        } else
+            throw "Capacity must be greater then zero!";
     }
     virtual ~_Buffer() {
-        if(_b) delete[] _b;
+        if (_b) delete[] _b;
     }
 };
 
 Buffer *Buffer::CreateBuffer(int _Cap) {
-    if(s_pBuf) {
+    if (s_pBuf) {
         return s_pBuf;
-    } else return s_pBuf = new _Buffer(_Cap);
+    } else
+        return s_pBuf = new _Buffer(_Cap);
 }
- 
+
 int _Buffer::GetItem(void) {
     if (_Anybody > 0) {
         cout << "Buffer is busy!\n";
@@ -44,7 +47,7 @@ int _Buffer::GetItem(void) {
     }
     return _GetItem();
 }
- 
+
 void _Buffer::PutItem(int V) {
     if (_Anybody > 0) {
         cout << "Buffer is busy!\n";
@@ -52,21 +55,24 @@ void _Buffer::PutItem(int V) {
     }
     _Anybody++;
     if (_Count >= _Capacity) {
-        cout << "Buffer is full!\n"; _Anybody--;
+        cout << "Buffer is full!\n";
+        _Anybody--;
         return;
     }
     _PutItem(V);
     return;
 }
- 
+
 int _Buffer::_GetItem(void) {
-    sleep(rand()%20);
+    sleep(rand() % 20);
+    // sleep(rand() % 2);
     _Anybody--;
     return _b[--_Count];
 }
- 
+
 void _Buffer::_PutItem(int V) {
-    sleep(rand()%20);
+    sleep(rand() % 20);
+    // sleep(rand() % 2);
     _Anybody--;
     _b[_Count++] = V;
     return;
