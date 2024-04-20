@@ -64,15 +64,15 @@ void _Buffer::PutItem(int V) {
 }
 
 int _Buffer::_GetItem(void) {
-    sleep(rand() % 20);
-    // sleep(rand() % 2);
+    // sleep(rand() % 20);
+    sleep((rand() % 20) / 100);
     _Anybody--;
     return _b[--_Count];
 }
 
 void _Buffer::_PutItem(int V) {
-    sleep(rand() % 20);
-    // sleep(rand() % 2);
+    // sleep((rand() % 20));
+    sleep((rand() % 20) / 100);
     _Anybody--;
     _b[_Count++] = V;
     return;
